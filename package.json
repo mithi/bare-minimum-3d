@@ -1,0 +1,20 @@
+{
+  "name": "bare-minimum-3d",
+  "version": "0.1.0",
+  "description": "A small package to transform declared 3d data (points, polygons, lines) to 2d data. The output is intended to be fed to a `bare-minimum-2d` plot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mithi/bare-minimum-3d.git"
+  },
+  "keywords": ["data", "data-visualization", "graph", "plot", "3d", "3d-scatter-plot", "visualization", "svg", "plotly", "d3", "matplotlib"],
+  "author": "Mithi",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/mithi/bare-minimum-3d/issues"
+  },
+  "homepage": "https://github.com/mithi/bare-minimum-3d#readme"
+}
