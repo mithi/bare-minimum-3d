@@ -10,11 +10,26 @@
     "type": "git",
     "url": "git+https://github.com/mithi/bare-minimum-3d.git"
   },
-  "keywords": ["data", "data-visualization", "graph", "plot", "3d", "3d-scatter-plot", "visualization", "svg", "plotly", "d3", "matplotlib"],
+  "keywords": [
+    "data",
+    "data-visualization",
+    "graph",
+    "plot",
+    "3d",
+    "3d-scatter-plot",
+    "visualization",
+    "svg",
+    "plotly",
+    "d3",
+    "matplotlib"
+  ],
   "author": "Mithi",
   "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/mithi/bare-minimum-3d/issues"
   },
-  "homepage": "https://github.com/mithi/bare-minimum-3d#readme"
+  "homepage": "https://github.com/mithi/bare-minimum-3d#readme",
+  "devDependencies": {
+    "typescript": "^4.0.2"
+  }
 }
