@@ -5,8 +5,14 @@ import {
     Lines3dSpecs,
     Points3dSpecs,
     Data3dSpecs,
+    Points2dSpecs,
+    Polygon2dSpecs,
     Data2dSpecs,
+    Lines2dSpecs,
 } from "./primitive-types"
+
+type PolygonOrPoints3d = Points3dSpecs | Polygon3dSpecs
+type PolygonOrPoints2d = Points2dSpecs | Polygon3dSpecs
 
 class DataRenderer {
     sceneRange: number
@@ -26,7 +32,7 @@ class DataRenderer {
         this.projectionConstant = projectionConstant
     }
 
-    _projectPoint(x_: number, y_: number, z_: number, i: number) {
+    _projectPoint(x_: number, y_: number, z_: number, i: number): Vector {
         const { sceneRange, dataZoffset, transformMatrix, projectionConstant } = this
         const x = x_ / sceneRange
         const y = y_ / sceneRange
@@ -37,7 +43,7 @@ class DataRenderer {
             .project(projectionConstant)
     }
 
-    _projectPolygonOrPoints(element: Polygon3dSpecs | Points3dSpecs) {
+    _projectPolygonOrPoints(element: PolygonOrPoints3d): PolygonOrPoints2d {
         const xs: Array<number> = []
         const ys: Array<number> = []
 
@@ -54,7 +60,7 @@ class DataRenderer {
         return { ...element, x: xs, y: ys }
     }
 
-    _projectLines(lines: Lines3dSpecs) {
+    _projectLines(lines: Lines3dSpecs): Lines2dSpecs {
         const xs0: Array<number> = []
         const ys0: Array<number> = []
         const xs1: Array<number> = []
@@ -84,8 +90,8 @@ class DataRenderer {
         return { ...lines, x0: xs0, y0: ys0, x1: xs1, y1: ys1 }
     }
 
-    project = (data: Array<Data3dSpecs>): Array<Data2dSpecs> =>
-        data.map((element: Data3dSpecs) => {
+    project(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
+        return data.map((element: Data3dSpecs) => {
             switch (element.type) {
                 case "polygon":
                 case "points":
@@ -94,6 +100,7 @@ class DataRenderer {
                     return this._projectLines(element)
             }
         })
+    }
 }
 
 export default DataRenderer
