@@ -9,6 +9,7 @@ import {
     Polygon2dSpecs,
     Data2dSpecs,
     Lines2dSpecs,
+    DataSpecType,
 } from "./primitive-types"
 
 type PolygonOrPoints3d = Points3dSpecs | Polygon3dSpecs
@@ -91,12 +92,14 @@ class DataRenderer {
     }
 
     render(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
+        console.log(data)
         return data.map((element: Data3dSpecs) => {
+            console.log(element)
             switch (element.type) {
-                case "polygon":
-                case "points":
+                case DataSpecType.polygon:
+                case DataSpecType.points:
                     return this._projectPolygonOrPoints(element)
-                case "lines":
+                case DataSpecType.lines:
                     return this._projectLines(element)
             }
         })

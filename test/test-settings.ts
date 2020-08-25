@@ -20,3 +20,5 @@ const sceneSettings = {
 }
 
 const projectionConstant = 1230
+
+export { viewSettings, sceneSettings }

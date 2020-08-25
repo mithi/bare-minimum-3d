@@ -1,26 +1,32 @@
 type row4 = [number, number, number, number]
 type matrix4x4 = [row4, row4, row4, row4]
 
+enum DataSpecType {
+    polygon = "polygon",
+    points = "points",
+    lines = "lines",
+}
+
 interface Polygon2dSpecs {
     x: Array<number>
     y: Array<number>
-    borderColor: String
-    borderOpacity: Number
-    fillColor: String
-    fillOpacity: Number
-    borderSize: Number
-    type: "polygon"
-    id: String
+    borderColor: string
+    borderOpacity: number
+    fillColor: string
+    fillOpacity: number
+    borderSize: number
+    type: DataSpecType.polygon
+    id: string
 }
 
 interface Points2dSpecs {
     x: Array<number>
     y: Array<number>
-    color: String
-    opacity: Number
-    size: Number
-    type: "points"
-    id: String
+    color: string
+    opacity: number
+    size: number
+    type: DataSpecType.points
+    id: string
 }
 
 interface Lines2dSpecs {
@@ -28,11 +34,11 @@ interface Lines2dSpecs {
     y0: Array<number>
     x1: Array<number>
     y1: Array<number>
-    color: String
-    opacity: Number
-    size: Number
-    type: "lines"
-    id: String
+    color: string
+    opacity: number
+    size: number
+    type: DataSpecType.lines
+    id: string
 }
 
 interface Lines3dSpecs extends Lines2dSpecs {
@@ -61,4 +67,5 @@ export {
     Polygon3dSpecs,
     Points3dSpecs,
     Data3dSpecs,
+    DataSpecType,
 }

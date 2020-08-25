@@ -5,6 +5,7 @@ import {
     Lines2dSpecs,
     Points2dSpecs,
     Data2dSpecs,
+    DataSpecType,
 } from "./primitive-types"
 
 /*
@@ -40,7 +41,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         color: "#FF0000",
         opacity: 1.0,
         size: 5,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "x-edge",
     }
 
@@ -52,7 +53,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         color: "#0000FF",
         opacity: 1.0,
         size: 5,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "y-edge",
     }
 
@@ -64,7 +65,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         color: "#00FF00",
         opacity: 1.0,
         size: 5,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "z-edge",
     }
 
@@ -74,7 +75,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         color: "#FFFFFF",
         opacity: 1.0,
         size: 6,
-        type: "points",
+        type: DataSpecType.points,
         id: "edge-intersection",
     }
 
@@ -110,7 +111,7 @@ class SceneCubeRenderer {
                 fillColor: "FFFFFF",
                 fillOpacity: 0,
                 borderSize: 1,
-                type: "polygon",
+                type: DataSpecType.polygon,
                 id: `plane-${index}`,
             }
 
@@ -170,7 +171,7 @@ E4          F5
             borderColor: "#0e2845",
             borderOpacity: 1.0,
             borderSize: 1,
-            type: "polygon",
+            type: DataSpecType.polygon,
             id: "xy-plane",
         }
         return [polygon]
@@ -214,7 +215,7 @@ E4          F5
             color: "#079992",
             opacity: 0.5,
             size: 1,
-            type: "lines",
+            type: DataSpecType.lines,
             id: "cross-section-lines",
         }
         return [lines]

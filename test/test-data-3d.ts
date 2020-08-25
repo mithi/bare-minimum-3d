@@ -1,3 +1,9 @@
+import {
+    Polygon3dSpecs,
+    Points3dSpecs,
+    Lines3dSpecs,
+    DataSpecType,
+} from "../src/primitive-types"
 const BODY_MESH_COLOR = "#ff6348"
 const BODY_COLOR = "#FC427B"
 const COG_COLOR = "#32ff7e"
@@ -11,9 +17,9 @@ const HEAD_SIZE = 14
 const LEG_OUTLINE_WIDTH = 5
 const SUPPORT_POLYGON_MESH_OPACITY = 0.2
 
-const BODY = {
+const BODY: Polygon3dSpecs = {
     id: "body-hexagon",
-    type: "polygon",
+    type: DataSpecType.polygon,
     borderOpacity: 1.0,
     borderColor: BODY_COLOR,
     borderSize: BODY_OUTLINE_WIDTH,
@@ -24,9 +30,9 @@ const BODY = {
     z: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0],
 }
 
-const BODY_POINTS = {
+const BODY_POINTS: Points3dSpecs = {
     id: "body-points",
-    type: "points",
+    type: DataSpecType.points,
     opacity: 1.0,
     color: BODY_COLOR,
     size: NORMAL_POINT_SIZE,
@@ -35,9 +41,9 @@ const BODY_POINTS = {
     z: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0],
 }
 
-const SUPPORT_POLYGON = {
+const SUPPORT_POLYGON: Polygon3dSpecs = {
     id: "support-polygon",
-    type: "polygon",
+    type: DataSpecType.polygon,
     borderOpacity: 0,
     borderColor: SUPPORT_POLYGON_MESH_COLOR,
     borderSize: 0,
@@ -62,12 +68,12 @@ const SUPPORT_POLYGON = {
     z: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 }
 
-const LEG_LINES = [
+const LEG_LINES: Array<Lines3dSpecs> = [
     {
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-0",
         x0: [100, 200, 300],
         y0: [0, 0, 0],
@@ -80,7 +86,7 @@ const LEG_LINES = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-1",
         x0: [100.0, 170.71, 241.42],
         y0: [100.0, 170.71, 241.42],
@@ -93,7 +99,7 @@ const LEG_LINES = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-2",
         x0: [-100.0, -170.71067811865476, -241.42135623730948],
         y0: [100.0, 170.71067811865476, 241.4213562373095],
@@ -106,7 +112,7 @@ const LEG_LINES = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-3",
         x0: [-100.0, -200.0, -300.0],
         y0: [0.0, 0, 0],
@@ -119,7 +125,7 @@ const LEG_LINES = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-4",
         x0: [-100.0, -170.71067811865476, -241.42135623730954],
         y0: [-100.0, -170.71067811865476, -241.42135623730948],
@@ -132,7 +138,7 @@ const LEG_LINES = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "lines",
+        type: DataSpecType.lines,
         id: "leg-5",
         x0: [100.0, 170.71067811865476, 241.42135623730948],
         y0: [-100.0, -170.71067811865476, -241.42135623730954],
@@ -143,12 +149,12 @@ const LEG_LINES = [
     },
 ]
 
-const LEG_POINTS = [
+const LEG_POINTS: Array<Points3dSpecs> = [
     {
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "rightMiddleLegpoints0",
         x: [100.0, 200.0, 300.0, 300.0],
         y: [0.0, 0.0, 0.0, 0.0],
@@ -158,7 +164,7 @@ const LEG_POINTS = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "rightFrontLegpoints1",
         x: [100.0, 170.71067811865476, 241.4213562373095, 241.4213562373095],
         y: [100.0, 170.71067811865476, 241.42135623730948, 241.42135623730948],
@@ -168,7 +174,7 @@ const LEG_POINTS = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "leftFrontLegpoints2",
         x: [-100.0, -170.71067811865476, -241.42135623730948, -241.42135623730948],
         y: [100.0, 170.71067811865476, 241.4213562373095, 241.4213562373095],
@@ -178,7 +184,7 @@ const LEG_POINTS = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "leftMiddleLegpoints3",
         x: [-100.0, -200.0, -300.0, -300.0],
         y: [0.0, 1.2246467991473532e-14, 2.4492935982947064e-14, 2.4492935982947064e-14],
@@ -188,7 +194,7 @@ const LEG_POINTS = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "leftBackLegpoints4",
         x: [-100.0, -170.71067811865476, -241.42135623730954, -241.42135623730954],
         y: [-100.0, -170.71067811865476, -241.42135623730948, -241.42135623730948],
@@ -198,7 +204,7 @@ const LEG_POINTS = [
         opacity: 1.0,
         color: LEG_COLOR,
         size: LEG_OUTLINE_WIDTH,
-        type: "points",
+        type: DataSpecType.points,
         id: "rightBackLegpoints5",
         x: [100.0, 170.71067811865476, 241.42135623730948, 241.42135623730948],
         y: [-100.0, -170.71067811865476, -241.42135623730954, -241.42135623730954],
@@ -206,13 +212,13 @@ const LEG_POINTS = [
     },
 ]
 
-const MISC_POINTS = [
+const MISC_POINTS: Array<Points3dSpecs> = [
     {
         color: COG_COLOR,
         opacity: 1,
         size: COG_SIZE,
         id: "centerOfGravity",
-        type: "points",
+        type: DataSpecType.points,
         x: [0.0],
         y: [0.0],
         z: [100.0],
@@ -223,7 +229,7 @@ const MISC_POINTS = [
         opacity: 1.0,
         size: HEAD_SIZE,
         id: "head",
-        type: "points",
+        type: DataSpecType.points,
         x: [0.0],
         y: [100.0],
         z: [100.0],
