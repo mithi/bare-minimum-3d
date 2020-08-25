@@ -1,9 +1,8 @@
 import { matrix4x4 } from "./primitive-types"
-import Vector from "./vector"
 
 const radians = (thetaDegrees: number) => (thetaDegrees * Math.PI) / 180
 
-const getSinCos = (theta: number): [number, number] => [
+const _returnSinAndCosine = (theta: number): [number, number] => [
     Math.sin(radians(theta)),
     Math.cos(radians(theta)),
 ]
@@ -32,7 +31,7 @@ const multiply4x4matrix = (mA: matrix4x4, mB: matrix4x4): matrix4x4 => {
 }
 
 const rotateXmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = getSinCos(theta)
+    const [s, c] = _returnSinAndCosine(theta)
 
     return [
         [1, 0, 0, 0],
@@ -43,7 +42,7 @@ const rotateXmatrix = (theta: number): matrix4x4 => {
 }
 
 const rotateYmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = getSinCos(theta)
+    const [s, c] = _returnSinAndCosine(theta)
     return [
         [c, 0, s, 0],
         [0, 1, 0, 0],
@@ -53,7 +52,7 @@ const rotateYmatrix = (theta: number): matrix4x4 => {
 }
 
 const rotateZmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = getSinCos(theta)
+    const [s, c] = _returnSinAndCosine(theta)
     return [
         [c, -s, 0, 0],
         [s, c, 0, 0],
@@ -62,7 +61,7 @@ const rotateZmatrix = (theta: number): matrix4x4 => {
     ]
 }
 
-const rotateXYZmatrix = (euler: Vector): matrix4x4 => {
+const rotateXYZmatrix = (euler: { x: number; y: number; z: number }): matrix4x4 => {
     const rx = rotateXmatrix(euler.x)
     const ry = rotateYmatrix(euler.y)
     const rz = rotateZmatrix(euler.z)
