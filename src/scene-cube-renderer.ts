@@ -32,7 +32,7 @@ const POINT_FACE_SET = [
     [2, 3, 7, 6],
 ]
 
-const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
+const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector, name: string) => {
     const xAxis: Lines2dSpecs = {
         x0: [p0.x],
         y0: [p0.y],
@@ -42,7 +42,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         opacity: 1.0,
         size: 5,
         type: DataSpecType.lines,
-        id: "x-edge",
+        id: `x-${name}`,
     }
 
     const yAxis: Lines2dSpecs = {
@@ -54,7 +54,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         opacity: 1.0,
         size: 5,
         type: DataSpecType.lines,
-        id: "y-edge",
+        id: `y-${name}`,
     }
 
     const zAxis: Lines2dSpecs = {
@@ -66,7 +66,7 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         opacity: 1.0,
         size: 5,
         type: DataSpecType.lines,
-        id: "z-edge",
+        id: `z-${name}`,
     }
 
     const centerPoint: Points2dSpecs = {
@@ -76,9 +76,10 @@ const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
         opacity: 1.0,
         size: 6,
         type: DataSpecType.points,
-        id: "edge-intersection",
+        id: `point-${name}`,
     }
 
+    console.log(xAxis, yAxis, zAxis, centerPoint)
     return [xAxis, yAxis, zAxis, centerPoint]
 }
 
@@ -91,9 +92,11 @@ class SceneCubeRenderer {
     render(): Array<Data2dSpecs> {
         const box = this.drawBox()
         const edges = this.drawEdges()
+        const worldAxes = this.drawWorldAxes()
+        const axes = this.drawCubeAxes()
         const xyPlane = this.drawXYplane()
         const crossSectionLines = this.drawCrossSectionLines()
-        return [...box, ...xyPlane, ...edges, ...crossSectionLines]
+        return [...box, ...xyPlane, ...edges, ...axes, ...worldAxes, ...crossSectionLines]
     }
 
     drawBox(): Array<Polygon2dSpecs> {
@@ -136,19 +139,19 @@ G6-------H7       \
 */
     drawEdges(): Array<Data2dSpecs> {
         const p: Array<Vector> = this.cube.vertexPoints2d
-        return drawAxes(p[6], p[7], p[4], p[2])
+        return drawAxes(p[6], p[7], p[4], p[2], "edge")
     }
 
     drawWorldAxes(): Array<Data2dSpecs> {
         const v: Array<Vector> = this.cube.worldAxes2d
         const p_: Vector = this.cube.worldOrigin2d
-        return drawAxes(p_, v[0], v[1], v[2])
+        return drawAxes(p_, v[0], v[1], v[2], "worldAxes")
     }
 
     drawCubeAxes(): Array<Data2dSpecs> {
         const v: Array<Vector> = this.cube.axes2d
         const p_: Vector = this.cube.center2d
-        return drawAxes(p_, v[0], v[1], v[2])
+        return drawAxes(p_, v[0], v[1], v[2], "axes")
     }
 
     /*

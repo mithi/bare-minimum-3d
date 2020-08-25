@@ -92,9 +92,7 @@ class DataRenderer {
     }
 
     render(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
-        console.log(data)
         return data.map((element: Data3dSpecs) => {
-            console.log(element)
             switch (element.type) {
                 case DataSpecType.polygon:
                 case DataSpecType.points:
