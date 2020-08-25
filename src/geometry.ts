@@ -71,4 +71,4 @@ const rotateXYZmatrix = (euler: Vector): matrix4x4 => {
     return rxyz
 }
 
-export { rotateXYZmatrix, multiply4x4matrix }
+export { rotateXYZmatrix, multiply4x4matrix, radians }
