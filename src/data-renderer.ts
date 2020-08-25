@@ -12,7 +12,7 @@ import {
 } from "./primitive-types"
 
 type PolygonOrPoints3d = Points3dSpecs | Polygon3dSpecs
-type PolygonOrPoints2d = Points2dSpecs | Polygon3dSpecs
+type PolygonOrPoints2d = Points2dSpecs | Polygon2dSpecs
 
 class DataRenderer {
     sceneRange: number
@@ -90,7 +90,7 @@ class DataRenderer {
         return { ...lines, x0: xs0, y0: ys0, x1: xs1, y1: ys1 }
     }
 
-    project(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
+    render(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
         return data.map((element: Data3dSpecs) => {
             switch (element.type) {
                 case "polygon":
