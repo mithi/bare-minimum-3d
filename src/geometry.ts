@@ -30,44 +30,16 @@ const multiply4x4matrix = (mA: matrix4x4, mB: matrix4x4): matrix4x4 => {
     return rM
 }
 
-const rotateXmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = _returnSinAndCosine(theta)
-
-    return [
-        [1, 0, 0, 0],
-        [0, c, -s, 0],
-        [0, s, c, 0],
-        [0, 0, 0, 1],
-    ]
-}
-
-const rotateYmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = _returnSinAndCosine(theta)
-    return [
-        [c, 0, s, 0],
-        [0, 1, 0, 0],
-        [-s, 0, c, 0],
-        [0, 0, 0, 1],
-    ]
-}
-
-const rotateZmatrix = (theta: number): matrix4x4 => {
-    const [s, c] = _returnSinAndCosine(theta)
-    return [
-        [c, -s, 0, 0],
-        [s, c, 0, 0],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1],
-    ]
-}
-
 const rotateXYZmatrix = (euler: { x: number; y: number; z: number }): matrix4x4 => {
-    const rx = rotateXmatrix(euler.x)
-    const ry = rotateYmatrix(euler.y)
-    const rz = rotateZmatrix(euler.z)
-    const rxy = multiply4x4matrix(rx, ry)
-    const rxyz = multiply4x4matrix(rxy, rz)
-    return rxyz
+    const [sx, cx] = _returnSinAndCosine(euler.x)
+    const [sy, cy] = _returnSinAndCosine(euler.y)
+    const [sz, cz] = _returnSinAndCosine(euler.z)
+    return [
+        [cy * cz, -sz * cy, sy, 0],
+        [sx * sy * cz + sz * cx, -sx * sy * sz + cx * cz, -sx * cy, 0],
+        [sx * sz - sy * cx * cz, sx * cz + sy * sz * cx, cx * cy, 0],
+        [0, 0, 0, 1],
+    ]
 }
 
 export { rotateXYZmatrix, multiply4x4matrix, radians }
