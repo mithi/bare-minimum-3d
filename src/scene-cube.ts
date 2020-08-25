@@ -13,6 +13,12 @@ class NormalUnitCube {
         `. |   `. |       z
           `C2-----D3
     */
+    AXES = [
+        new Vector(0.25, 0, 0, "xAxis"),
+        new Vector(0, 0.25, 0, "yAxis"),
+        new Vector(0, 0, 0.25, "zAxis"),
+    ]
+
     POINTS = [
         new Vector(-1, +1, +1, "front-top-left"), // A0
         new Vector(+1, +1, +1, "front-top-right"), // B1
@@ -53,10 +59,16 @@ class NormalUnitCube {
 const UNIT_CUBE = new NormalUnitCube()
 
 class SceneCube {
+    center3d = UNIT_CUBE.CENTER
+    axes3d = UNIT_CUBE.AXES
     vertexPoints3d = UNIT_CUBE.POINTS
     crossPoints3d = UNIT_CUBE.CROSS_SECTION_POINTS
+    center2d: Vector
+    worldOrigin2d: Vector
     vertexPoints2d: Array<Vector>
     crossPoints2d: Array<Vector>
+    axes2d: Array<Vector>
+    worldAxes2d: Array<Vector>
     wrtWorldMatrix: matrix4x4
     wrtCameraMatrix: matrix4x4
     zOffset: number
@@ -80,11 +92,17 @@ class SceneCube {
         this.projectionConstant = projectionConstant
         this.crossPoints2d = this._projectedPoints(this.crossPoints3d)
         this.vertexPoints2d = this._projectedPoints(this.vertexPoints3d)
+        const [center2d] = this._projectedPoints([this.center3d])
+        this.center2d = center2d
+        this.axes2d = this._projectedPoints(this.axes3d)
+        this.worldAxes2d = this._projectedPoints(this.axes3d, 0)
+        const [worldOrigin2d] = this._projectedPoints([this.center3d], 0)
+        this.worldOrigin2d = worldOrigin2d
     }
 
-    _projectedPoints(points: Array<Vector>) {
+    _projectedPoints(points: Array<Vector>, offset: number = this.zOffset) {
         return points.map((point: Vector) => {
-            return new Vector(point.x, point.y, point.z + this.zOffset, point.name)
+            return new Vector(point.x, point.y, point.z + offset, point.name)
                 .transform(this.wrtCameraMatrix)
                 .project(this.projectionConstant)
         })
