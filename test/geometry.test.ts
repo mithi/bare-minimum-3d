@@ -1,5 +1,5 @@
 import { matrix4x4 } from "../src/primitive-types"
-import { rotateXYZmatrix } from "../src/geometry"
+import { rotateXYZmatrix, multiply4x4matrix } from "../src/geometry"
 
 const expectEqualMatrix = (A: matrix4x4, B: matrix4x4): void => {
     for (let i = 0; i < 4; i++) {
@@ -18,4 +18,29 @@ test("rotate XYZ matrix", () => {
     ]
     const R = rotateXYZmatrix({ x: 37, y: -44, z: 71 })
     expectEqualMatrix(C, R)
+})
+
+test("multiply 4x4 matrix", () => {
+    const A: matrix4x4 = [
+        [5, 7, 9, 10],
+        [2, 3, 3, 8],
+        [8, 10, 2, 3],
+        [3, 3, 4, 8],
+    ]
+
+    const B: matrix4x4 = [
+        [3, 10, 12, 18],
+        [12, 1, 4, 9],
+        [9, 10, 12, 2],
+        [3, 12, 4, 10],
+    ]
+
+    const C: matrix4x4 = [
+        [210, 267, 236, 271],
+        [93, 149, 104, 149],
+        [171, 146, 172, 268],
+        [105, 169, 128, 169],
+    ]
+    const M = multiply4x4matrix(A, B)
+    expectEqualMatrix(C, M)
 })
