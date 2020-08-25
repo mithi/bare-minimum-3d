@@ -1,4 +1,5 @@
 import { matrix4x4 } from "./primitive-types"
+import Vector from "./vector"
 
 const radians = (thetaDegrees: number) => (thetaDegrees * Math.PI) / 180
 
@@ -7,15 +8,15 @@ const getSinCos = (theta: number): [number, number] => [
     Math.cos(radians(theta)),
 ]
 
-const uniformMatrix4x4 = (d: number): matrix4x4 => [
+const uniform4x4matrix = (d: number): matrix4x4 => [
     [d, d, d, d],
     [d, d, d, d],
     [d, d, d, d],
     [d, d, d, d],
 ]
 
-const multiplyMatrix = (mA: matrix4x4, mB: matrix4x4): matrix4x4 => {
-    let rM: matrix4x4 = uniformMatrix4x4(0)
+const multiply4x4matrix = (mA: matrix4x4, mB: matrix4x4): matrix4x4 => {
+    let rM: matrix4x4 = uniform4x4matrix(0)
 
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
@@ -61,4 +62,13 @@ const rotateZmatrix = (theta: number): matrix4x4 => {
     ]
 }
 
-export { rotateXmatrix, rotateYmatrix, rotateZmatrix, multiplyMatrix, getSinCos, radians }
+const rotateXYZmatrix = (euler: Vector): matrix4x4 => {
+    const rx = rotateXmatrix(euler.x)
+    const ry = rotateYmatrix(euler.y)
+    const rz = rotateZmatrix(euler.z)
+    const rxy = multiply4x4matrix(rx, ry)
+    const rxyz = multiply4x4matrix(rxy, rz)
+    return rxyz
+}
+
+export { rotateXYZmatrix, multiply4x4matrix }
