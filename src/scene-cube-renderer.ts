@@ -31,13 +31,60 @@ const POINT_FACE_SET = [
     [2, 3, 7, 6],
 ]
 
-class SceneCubeRenderer {
-    crossPoints2d: Array<Vector>
-    vertexPoints2d: Array<Vector>
+const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector) => {
+    const xAxis: Lines2dSpecs = {
+        x0: [p0.x],
+        y0: [p0.y],
+        x1: [vx.x],
+        y1: [vx.y],
+        color: "#FF0000",
+        opacity: 1.0,
+        size: 5,
+        type: "lines",
+        id: "x-edge",
+    }
 
+    const yAxis: Lines2dSpecs = {
+        x0: [p0.x],
+        y0: [p0.y],
+        x1: [vy.x],
+        y1: [vy.y],
+        color: "#0000FF",
+        opacity: 1.0,
+        size: 5,
+        type: "lines",
+        id: "y-edge",
+    }
+
+    const zAxis: Lines2dSpecs = {
+        x0: [p0.x],
+        y0: [p0.y],
+        x1: [vz.x],
+        y1: [vz.y],
+        color: "#00FF00",
+        opacity: 1.0,
+        size: 5,
+        type: "lines",
+        id: "z-edge",
+    }
+
+    const centerPoint: Points2dSpecs = {
+        x: [p0.x],
+        y: [p0.y],
+        color: "#FFFFFF",
+        opacity: 1.0,
+        size: 6,
+        type: "points",
+        id: "edge-intersection",
+    }
+
+    return [xAxis, yAxis, zAxis, centerPoint]
+}
+
+class SceneCubeRenderer {
+    cube: SceneCube
     constructor(cube: SceneCube) {
-        this.crossPoints2d = cube.crossPoints2d
-        this.vertexPoints2d = cube.vertexPoints2d
+        this.cube = cube
     }
 
     render(): Array<Data2dSpecs> {
@@ -49,7 +96,7 @@ class SceneCubeRenderer {
     }
 
     drawBox(): Array<Polygon2dSpecs> {
-        const p: Array<Vector> = this.vertexPoints2d
+        const p: Array<Vector> = this.cube.vertexPoints2d
         let data: Array<Polygon2dSpecs> = []
 
         POINT_FACE_SET.forEach((pointIndices, index) => {
@@ -87,54 +134,20 @@ G6-------H7       \
   intersectionPoint=white (G6)
 */
     drawEdges(): Array<Data2dSpecs> {
-        const p: Array<Vector> = this.vertexPoints2d
-        const xEdge: Lines2dSpecs = {
-            x0: [p[7].x],
-            y0: [p[7].y],
-            x1: [p[6].x],
-            y1: [p[6].y],
-            color: "#FF0000",
-            opacity: 1.0,
-            size: 5,
-            type: "lines",
-            id: "x-edge",
-        }
+        const p: Array<Vector> = this.cube.vertexPoints2d
+        return drawAxes(p[6], p[7], p[4], p[2])
+    }
 
-        const yEdge: Lines2dSpecs = {
-            x0: [p[6].x],
-            y0: [p[6].y],
-            x1: [p[4].x],
-            y1: [p[4].y],
-            color: "#0000FF",
-            opacity: 1.0,
-            size: 5,
-            type: "lines",
-            id: "y-edge",
-        }
+    drawWorldAxes(): Array<Data2dSpecs> {
+        const v: Array<Vector> = this.cube.worldAxes2d
+        const p_: Vector = this.cube.worldOrigin2d
+        return drawAxes(p_, v[0], v[1], v[2])
+    }
 
-        const zEdge: Lines2dSpecs = {
-            x0: [p[6].x],
-            y0: [p[6].y],
-            x1: [p[2].x],
-            y1: [p[2].y],
-            color: "#00FF00",
-            opacity: 1.0,
-            size: 5,
-            type: "lines",
-            id: "z-edge",
-        }
-
-        const intersectionPoint: Points2dSpecs = {
-            x: [p[6].x],
-            y: [p[6].y],
-            color: "#FFFFFF",
-            opacity: 1.0,
-            size: 6,
-            type: "points",
-            id: "edge-intersection",
-        }
-
-        return [xEdge, yEdge, zEdge, intersectionPoint]
+    drawCubeAxes(): Array<Data2dSpecs> {
+        const v: Array<Vector> = this.cube.axes2d
+        const p_: Vector = this.cube.center2d
+        return drawAxes(p_, v[0], v[1], v[2])
     }
 
     /*
@@ -148,7 +161,7 @@ E4          F5
  G6         H7
 */
     drawXYplane(): Array<Polygon2dSpecs> {
-        const p: Array<Vector> = this.vertexPoints2d
+        const p: Array<Vector> = this.cube.vertexPoints2d
         const polygon: Polygon2dSpecs = {
             x: [p[4].x, p[5].x, p[7].x, p[6].x],
             y: [p[4].y, p[5].y, p[7].y, p[6].y],
@@ -190,8 +203,8 @@ E4          F5
     */
 
     drawCrossSectionLines(): Array<Lines2dSpecs> {
-        const p: Array<Vector> = this.crossPoints2d
-        const t: Array<Vector> = this.vertexPoints2d
+        const p: Array<Vector> = this.cube.crossPoints2d
+        const t: Array<Vector> = this.cube.vertexPoints2d
 
         const lines: Lines2dSpecs = {
             x0: [p[0].x, p[1].x, p[1].x, p[3].x, t[6].x, t[4].x, t[5].x, t[7].x],
@@ -207,11 +220,4 @@ E4          F5
         return [lines]
     }
 }
-/*
-const drawWorldAxes = projectedPoints => {}
-const drawCubeAxes = projectedPoints => {}
-const drawWorldCenterPoint = projectedPoint => {}
-const drawCubeCenterPoint = projectedPoint => {}
-*/
-
 export default SceneCubeRenderer
