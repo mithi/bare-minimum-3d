@@ -2,8 +2,8 @@ type row4 = [number, number, number, number]
 type matrix4x4 = [row4, row4, row4, row4]
 
 interface Polygon2dSpecs {
-    x: Array<Number>
-    y: Array<Number>
+    x: Array<number>
+    y: Array<number>
     borderColor: String
     borderOpacity: Number
     fillColor: String
@@ -14,8 +14,8 @@ interface Polygon2dSpecs {
 }
 
 interface Points2dSpecs {
-    x: Array<Number>
-    y: Array<Number>
+    x: Array<number>
+    y: Array<number>
     color: String
     opacity: Number
     size: Number
@@ -24,10 +24,10 @@ interface Points2dSpecs {
 }
 
 interface Lines2dSpecs {
-    x0: Array<Number>
-    y0: Array<Number>
-    x1: Array<Number>
-    y1: Array<Number>
+    x0: Array<number>
+    y0: Array<number>
+    x1: Array<number>
+    y1: Array<number>
     color: String
     opacity: Number
     size: Number
@@ -35,6 +35,30 @@ interface Lines2dSpecs {
     id: String
 }
 
-type Data2dSpecs = Polygon2dSpecs | Lines2dSpecs | Points2dSpecs
+interface Lines3dSpecs extends Lines2dSpecs {
+    z0: Array<number>
+    z1: Array<number>
+}
 
-export { matrix4x4, Lines2dSpecs, Polygon2dSpecs, Points2dSpecs, Data2dSpecs }
+interface Polygon3dSpecs extends Polygon2dSpecs {
+    z: Array<number>
+}
+
+interface Points3dSpecs extends Points2dSpecs {
+    z: Array<number>
+}
+
+type Data2dSpecs = Polygon2dSpecs | Lines2dSpecs | Points2dSpecs
+type Data3dSpecs = Polygon3dSpecs | Lines3dSpecs | Points3dSpecs
+
+export {
+    matrix4x4,
+    Lines2dSpecs,
+    Polygon2dSpecs,
+    Points2dSpecs,
+    Data2dSpecs,
+    Lines3dSpecs,
+    Polygon3dSpecs,
+    Points3dSpecs,
+    Data3dSpecs,
+}
