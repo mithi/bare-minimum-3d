@@ -1,41 +1,12 @@
 import SceneCube from "./scene-cube"
 import Vector from "./vector"
+import {
+    Polygon2dSpecs,
+    Lines2dSpecs,
+    Points2dSpecs,
+    Data2dSpecs,
+} from "./primitive-types"
 
-interface Polygon2dSpecs {
-    x: Array<Number>
-    y: Array<Number>
-    borderColor: String
-    borderOpacity: Number
-    fillColor: String
-    fillOpacity: Number
-    borderSize: Number
-    type: "polygon"
-    id: String
-}
-
-interface Points2dSpecs {
-    x: Array<Number>
-    y: Array<Number>
-    color: String
-    opacity: Number
-    size: Number
-    type: "points"
-    id: String
-}
-
-interface Lines2dSpecs {
-    x0: Array<Number>
-    y0: Array<Number>
-    x1: Array<Number>
-    y1: Array<Number>
-    color: String
-    opacity: Number
-    size: Number
-    type: "lines"
-    id: String
-}
-
-type Data2dSpecs = Polygon2dSpecs | Lines2dSpecs | Points2dSpecs
 /*
    E4------F5      y
    |`.    | `.     |
@@ -70,10 +41,10 @@ class SceneCubeRenderer {
     }
 
     render(): Array<Data2dSpecs> {
-        const box: Array<Polygon2dSpecs> = this.drawBox()
-        const edges: Array<Data2dSpecs> = this.drawEdges()
-        const xyPlane: Array<Polygon2dSpecs> = this.drawXYplane()
-        const crossSectionLines: Array<Lines2dSpecs> = this.drawCrossSectionLines()
+        const box = this.drawBox()
+        const edges = this.drawEdges()
+        const xyPlane = this.drawXYplane()
+        const crossSectionLines = this.drawCrossSectionLines()
         return [...box, ...xyPlane, ...edges, ...crossSectionLines]
     }
 
