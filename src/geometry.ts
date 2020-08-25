@@ -1,5 +1,4 @@
-type row4 = [number, number, number, number]
-type matrix4x4 = [row4, row4, row4, row4]
+import { matrix4x4 } from "./primitive-types"
 
 const radians = (thetaDegrees: number) => (thetaDegrees * Math.PI) / 180
 
@@ -62,4 +61,4 @@ const rotateZmatrix = (theta: number): matrix4x4 => {
     ]
 }
 
-export { rotateXmatrix, rotateYmatrix, rotateZmatrix, multiplyMatrix }
+export { rotateXmatrix, rotateYmatrix, rotateZmatrix, multiplyMatrix, getSinCos, radians }
