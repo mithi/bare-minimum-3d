@@ -1,4 +1,5 @@
 import SceneCube from "./scene-cube"
+import { SceneOptions, AxesOptions } from "./parameter-types"
 import Vector from "./vector"
 import {
     Polygon2dSpecs,
@@ -32,76 +33,101 @@ const POINT_FACE_SET = [
     [2, 3, 7, 6],
 ]
 
-const drawAxes = (p0: Vector, vx: Vector, vy: Vector, vz: Vector, name: string) => {
-    const xAxis: Lines2dSpecs = {
-        x0: [p0.x],
-        y0: [p0.y],
-        x1: [vx.x],
-        y1: [vx.y],
-        color: "#FF0000",
-        opacity: 1.0,
-        size: 5,
-        type: DataSpecType.lines,
-        id: `x-${name}`,
-    }
+const drawAxis = (
+    p: Vector,
+    v: Vector,
+    color: string,
+    opacity: number,
+    size: number,
+    name: string
+): Lines2dSpecs => ({
+    x0: [p.x],
+    y0: [p.y],
+    x1: [v.x],
+    y1: [v.y],
+    color,
+    opacity,
+    size,
+    type: DataSpecType.lines,
+    id: `x-${name}`,
+})
 
-    const yAxis: Lines2dSpecs = {
-        x0: [p0.x],
-        y0: [p0.y],
-        x1: [vy.x],
-        y1: [vy.y],
-        color: "#0000FF",
-        opacity: 1.0,
-        size: 5,
-        type: DataSpecType.lines,
-        id: `y-${name}`,
-    }
+const drawAxes = (
+    p0: Vector,
+    vx: Vector,
+    vy: Vector,
+    vz: Vector,
+    name: string,
+    AxesOptions: AxesOptions
+) => {
+    const {
+        intersectionPointColor,
+        intersectionPointSize,
+        xColor,
+        yColor,
+        zColor,
+        lineSize,
+        edgeOpacity,
+    } = AxesOptions
 
-    const zAxis: Lines2dSpecs = {
-        x0: [p0.x],
-        y0: [p0.y],
-        x1: [vz.x],
-        y1: [vz.y],
-        color: "#00FF00",
-        opacity: 1.0,
-        size: 5,
-        type: DataSpecType.lines,
-        id: `z-${name}`,
-    }
+    let opacity = edgeOpacity || 1
+    let size = lineSize || 1
+    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name)
+    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name)
+    const zAxis: Lines2dSpecs = drawAxis(p0, vz, yColor, opacity, size, name)
 
     const centerPoint: Points2dSpecs = {
         x: [p0.x],
         y: [p0.y],
-        color: "#FFFFFF",
+        color: intersectionPointColor,
         opacity: 1.0,
-        size: 6,
+        size: intersectionPointSize || 3,
         type: DataSpecType.points,
         id: `point-${name}`,
     }
 
-    console.log(xAxis, yAxis, zAxis, centerPoint)
     return [xAxis, yAxis, zAxis, centerPoint]
 }
 
 class SceneCubeRenderer {
     cube: SceneCube
-    constructor(cube: SceneCube) {
+    sceneOptions: SceneOptions
+    constructor(cube: SceneCube, sceneOptions: SceneOptions) {
         this.cube = cube
+        this.sceneOptions = sceneOptions
     }
 
     render(): Array<Data2dSpecs> {
-        const box = this.drawBox()
-        const edges = this.drawEdges()
-        const worldAxes = this.drawWorldAxes()
-        const axes = this.drawCubeAxes()
-        const xyPlane = this.drawXYplane()
-        const crossSectionLines = this.drawCrossSectionLines()
-        return [...box, ...xyPlane, ...edges, ...axes, ...worldAxes, ...crossSectionLines]
+        let data = []
+        const {
+            sceneEdges,
+            xyPlane,
+            crossLines,
+            edgeAxes,
+            worldAxes,
+            cubeAxes,
+        } = this.sceneOptions
+
+        return [
+            ...this.drawBox(),
+            ...this.drawXYplane(),
+            ...this.drawEdges(),
+            ...this.drawXYplane(),
+            ...this.drawCrossSectionLines(),
+            ...this.drawWorldAxes(),
+            ...this.drawCubeAxes(),
+        ]
     }
 
     drawBox(): Array<Polygon2dSpecs> {
+        if (!this.sceneOptions.sceneEdges) {
+            return []
+        }
+
         const p: Array<Vector> = this.cube.vertexPoints2d
         let data: Array<Polygon2dSpecs> = []
+
+        const { color, opacity } = this.sceneOptions.sceneEdges
 
         POINT_FACE_SET.forEach((pointIndices, index) => {
             const [a, b, c, d] = pointIndices
@@ -110,10 +136,10 @@ class SceneCubeRenderer {
                 x: [p[a].x, p[b].x, p[c].x, p[d].x],
                 y: [p[a].y, p[b].y, p[c].y, p[d].y],
                 borderColor: "#0652DD",
-                borderOpacity: 1.0,
-                fillColor: "FFFFFF",
-                fillOpacity: 0,
-                borderSize: 1,
+                borderOpacity: 0,
+                borderSize: 0,
+                fillColor: color,
+                fillOpacity: opacity || 1,
                 type: DataSpecType.polygon,
                 id: `plane-${index}`,
             }
@@ -137,21 +163,34 @@ G6-------H7       \
   zEdge=green
   intersectionPoint=white (G6)
 */
+
     drawEdges(): Array<Data2dSpecs> {
+        const { edgeAxes } = this.sceneOptions
+        if (!edgeAxes) {
+            return []
+        }
         const p: Array<Vector> = this.cube.vertexPoints2d
-        return drawAxes(p[6], p[7], p[4], p[2], "edge")
+        return drawAxes(p[6], p[7], p[4], p[2], "edge", edgeAxes)
     }
 
     drawWorldAxes(): Array<Data2dSpecs> {
+        const { worldAxes } = this.sceneOptions
+        if (!worldAxes) {
+            return []
+        }
         const v: Array<Vector> = this.cube.worldAxes2d
         const p_: Vector = this.cube.worldOrigin2d
-        return drawAxes(p_, v[0], v[1], v[2], "worldAxes")
+        return drawAxes(p_, v[0], v[1], v[2], "worldAxes", worldAxes)
     }
 
     drawCubeAxes(): Array<Data2dSpecs> {
+        const { cubeAxes } = this.sceneOptions
+        if (!cubeAxes) {
+            return []
+        }
         const v: Array<Vector> = this.cube.axes2d
         const p_: Vector = this.cube.center2d
-        return drawAxes(p_, v[0], v[1], v[2], "axes")
+        return drawAxes(p_, v[0], v[1], v[2], "axes", cubeAxes)
     }
 
     /*

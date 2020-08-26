@@ -44,4 +44,4 @@ interface AxesOptions {
     edgeOpacity?: number
 }
 
-export { ViewSettings, SceneSettings, SceneOptions }
+export { ViewSettings, SceneSettings, SceneOptions, AxesOptions }
