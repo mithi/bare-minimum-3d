@@ -1,7 +1,7 @@
 import { SceneOptions, AxesOptions } from "../src/parameter-types"
 
 const edgeAxes: AxesOptions = {
-    intersectionPointColor: "#CDDC39",
+    intersectionPointColor: "#FFEB3B",
     intersectionPointSize: 3,
     xColor: "#F44336",
     yColor: "#2196F3",
@@ -11,7 +11,7 @@ const edgeAxes: AxesOptions = {
 }
 
 const worldAxes: AxesOptions = {
-    intersectionPointColor: "#FFEB3B",
+    intersectionPointColor: "#8BC34A",
     intersectionPointSize: 3,
     xColor: "#E91E63",
     yColor: "#03A9F4",
@@ -21,7 +21,7 @@ const worldAxes: AxesOptions = {
 }
 
 const cubeAxes: AxesOptions = {
-    intersectionPointColor: "#FFEB3B",
+    intersectionPointColor: "#CDDC39",
     intersectionPointSize: 3,
     xColor: "#9C27B0",
     yColor: "#00BCD4",
