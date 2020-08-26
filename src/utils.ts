@@ -65,7 +65,7 @@ const renderScene = (
     )
 
     // 3. generate the 2d representation of the scene cube to feed to the plot
-    const sceneData = new SceneCubeRenderer(cube).render()
+    const sceneData = new SceneCubeRenderer(cube, sceneOptions).render()
 
     // 4. generate the 2d representation of the passed data to feed to the plot
     const { dataZoffset } = sceneSettings

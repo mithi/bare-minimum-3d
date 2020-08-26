@@ -36,11 +36,12 @@ interface ModelOptions {
 
 interface AxesOptions {
     intersectionPointColor: string
-    intersectionPointSize: number
-    xEdgeColor: string
-    yEdgeColor: string
-    zEdgeColor: string
+    intersectionPointSize?: number
+    xColor: string
+    yColor: string
+    zColor: string
+    lineSize?: number
     edgeOpacity?: number
 }
 
-export { ViewSettings, SceneSettings, SceneOptions }
+export { ViewSettings, SceneSettings, SceneOptions, AxesOptions }
