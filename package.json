@@ -1,5 +1,5 @@
 {
-    "name": "bare-minimum-3d",
+    "name": "@mithi/bare-minimum-3d",
     "version": "0.1.0",
     "description": "A small package to transform declared 3d data (points, polygons, lines) to 2d data. The output is intended to be fed to a `bare-minimum-2d` plot.",
     "main": "./lib/cjs/index.js",
@@ -7,6 +7,9 @@
     "files": [
         "lib/"
     ],
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    },
     "scripts": {
         "test": "jest",
         "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
