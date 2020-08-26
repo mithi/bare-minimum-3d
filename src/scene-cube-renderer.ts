@@ -74,7 +74,7 @@ const drawAxes = (
     let size = lineSize || 1
     const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name)
     const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name)
-    const zAxis: Lines2dSpecs = drawAxis(p0, vz, yColor, opacity, size, name)
+    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name)
 
     const centerPoint: Points2dSpecs = {
         x: [p0.x],
@@ -135,11 +135,11 @@ class SceneCubeRenderer {
             const plane: Polygon2dSpecs = {
                 x: [p[a].x, p[b].x, p[c].x, p[d].x],
                 y: [p[a].y, p[b].y, p[c].y, p[d].y],
-                borderColor: "#0652DD",
-                borderOpacity: 0,
-                borderSize: 0,
+                borderColor: color,
+                borderOpacity: opacity || 1,
+                borderSize: 1,
                 fillColor: color,
-                fillOpacity: opacity || 1,
+                fillOpacity: 0,
                 type: DataSpecType.polygon,
                 id: `plane-${index}`,
             }
