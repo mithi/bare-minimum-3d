@@ -95,15 +95,23 @@ class SceneCube {
         const [center2d] = this._projectedPoints([this.center3d])
         this.center2d = center2d
         this.axes2d = this._projectedPoints(this.axes3d)
-        this.worldAxes2d = this._projectedPoints(this.axes3d, 0)
-        const [worldOrigin2d] = this._projectedPoints([this.center3d], 0)
+        this.worldAxes2d = this._projectedPoints(this.axes3d, 0, worldWrtCameraMatrix)
+        const [worldOrigin2d] = this._projectedPoints(
+            [this.center3d],
+            0,
+            worldWrtCameraMatrix
+        )
         this.worldOrigin2d = worldOrigin2d
     }
 
-    _projectedPoints(points: Array<Vector>, offset: number = this.zOffset) {
+    _projectedPoints(
+        points: Array<Vector>,
+        offset: number = this.zOffset,
+        transformMatrix: matrix4x4 = this.wrtCameraMatrix
+    ) {
         return points.map((point: Vector) => {
             return new Vector(point.x, point.y, point.z + offset, point.name)
-                .transform(this.wrtCameraMatrix)
+                .transform(transformMatrix)
                 .project(this.projectionConstant)
         })
     }
