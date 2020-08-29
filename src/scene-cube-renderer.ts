@@ -39,7 +39,8 @@ const drawAxis = (
     color: string,
     opacity: number,
     size: number,
-    name: string
+    name: string,
+    axisType: string
 ): Lines2dSpecs => ({
     x0: [p.x],
     y0: [p.y],
@@ -49,7 +50,7 @@ const drawAxis = (
     opacity,
     size,
     type: DataSpecType.lines,
-    id: `x-${name}`,
+    id: `${axisType}-${name}`,
 })
 
 const drawAxes = (
@@ -72,9 +73,9 @@ const drawAxes = (
 
     let opacity = edgeOpacity || 1
     let size = lineSize || 1
-    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name)
-    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name)
-    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name)
+    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name, "x")
+    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name, "y")
+    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name, "z")
 
     const centerPoint: Points2dSpecs = {
         x: [p0.x],
