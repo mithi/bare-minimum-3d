@@ -39,7 +39,8 @@ const drawAxis = (
     color: string,
     opacity: number,
     size: number,
-    name: string
+    name: string,
+    axisType: string
 ): Lines2dSpecs => ({
     x0: [p.x],
     y0: [p.y],
@@ -49,7 +50,7 @@ const drawAxis = (
     opacity,
     size,
     type: DataSpecType.lines,
-    id: `x-${name}`,
+    id: `${axisType}-${name}`,
 })
 
 const drawAxes = (
@@ -72,9 +73,9 @@ const drawAxes = (
 
     let opacity = edgeOpacity || 1
     let size = lineSize || 1
-    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name)
-    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name)
-    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name)
+    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name, "x")
+    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name, "y")
+    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name, "z")
 
     const centerPoint: Points2dSpecs = {
         x: [p0.x],
@@ -98,16 +99,6 @@ class SceneCubeRenderer {
     }
 
     render(): Array<Data2dSpecs> {
-        let data = []
-        const {
-            sceneEdges,
-            xyPlane,
-            crossLines,
-            edgeAxes,
-            worldAxes,
-            cubeAxes,
-        } = this.sceneOptions
-
         return [
             ...this.drawBox(),
             ...this.drawXYplane(),
@@ -120,14 +111,15 @@ class SceneCubeRenderer {
     }
 
     drawBox(): Array<Polygon2dSpecs> {
-        if (!this.sceneOptions.sceneEdges) {
+        const { sceneEdges } = this.sceneOptions
+        if (!sceneEdges) {
             return []
         }
 
         const p: Array<Vector> = this.cube.vertexPoints2d
         let data: Array<Polygon2dSpecs> = []
 
-        const { color, opacity } = this.sceneOptions.sceneEdges
+        const { color, opacity } = sceneEdges
 
         POINT_FACE_SET.forEach((pointIndices, index) => {
             const [a, b, c, d] = pointIndices
@@ -204,14 +196,20 @@ E4          F5
  G6         H7
 */
     drawXYplane(): Array<Polygon2dSpecs> {
+        const { xyPlane } = this.sceneOptions
+        if (!xyPlane) {
+            return []
+        }
+
+        const { color, opacity } = xyPlane
         const p: Array<Vector> = this.cube.vertexPoints2d
         const polygon: Polygon2dSpecs = {
             x: [p[4].x, p[5].x, p[7].x, p[6].x],
             y: [p[4].y, p[5].y, p[7].y, p[6].y],
-            fillColor: "#0e2845",
-            fillOpacity: 0.5,
-            borderColor: "#0e2845",
-            borderOpacity: 1.0,
+            fillColor: color,
+            fillOpacity: opacity || 1.0,
+            borderColor: color,
+            borderOpacity: opacity || 1.0,
             borderSize: 1,
             type: DataSpecType.polygon,
             id: "xy-plane",
@@ -246,16 +244,23 @@ E4          F5
     */
 
     drawCrossSectionLines(): Array<Lines2dSpecs> {
+        const { crossLines } = this.sceneOptions
+        if (!crossLines) {
+            return []
+        }
+
         const p: Array<Vector> = this.cube.crossPoints2d
         const t: Array<Vector> = this.cube.vertexPoints2d
+
+        const { color, opacity } = crossLines
 
         const lines: Lines2dSpecs = {
             x0: [p[0].x, p[1].x, p[1].x, p[3].x, t[6].x, t[4].x, t[5].x, t[7].x],
             y0: [p[0].y, p[1].y, p[1].y, p[3].y, t[6].y, t[4].y, t[5].y, t[7].y],
             x1: [p[3].x, p[2].x, p[4].x, p[5].x, t[4].x, t[5].x, t[7].x, t[6].x],
             y1: [p[3].y, p[2].y, p[4].y, p[5].y, t[4].y, t[5].y, t[7].y, t[6].y],
-            color: "#079992",
-            opacity: 0.5,
+            color: color,
+            opacity: opacity || 1.0,
             size: 1,
             type: DataSpecType.lines,
             id: "cross-section-lines",
