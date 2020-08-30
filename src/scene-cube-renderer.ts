@@ -100,10 +100,10 @@ class SceneCubeRenderer {
 
     render(): Array<Data2dSpecs> {
         return [
-            ...this.drawBox(),
-            ...this.drawEdges(),
             ...this.drawXYplane(),
+            ...this.drawBox(),
             ...this.drawCrossSectionLines(),
+            ...this.drawEdgeAxes(),
             ...this.drawWorldAxes(),
             ...this.drawCubeAxes(),
         ]
@@ -155,7 +155,7 @@ G6-------H7       \
   intersectionPoint=white (G6)
 */
 
-    drawEdges(): Array<Data2dSpecs> {
+    drawEdgeAxes(): Array<Data2dSpecs> {
         const { edgeAxes } = this.sceneOptions
         if (!edgeAxes) {
             return []
