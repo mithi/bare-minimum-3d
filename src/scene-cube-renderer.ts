@@ -109,36 +109,46 @@ class SceneCubeRenderer {
         ]
     }
 
-    drawBox(): Array<Polygon2dSpecs> {
+    /*
+   E4------F5      y
+   |`.    | `.     |
+   |  `A0-----B1   *----- x
+   |   |  |   |     \
+   G6--|--H7  |      \
+    `. |   `. |       z
+      `C2-----D3
+face 1 - A0, B1, D3 | C2 (front)
+face 2 - B1, F5, H7 | D3 (front right)
+face 3 - F5, E4, G6 | H7 (front left)
+face 4 - E4, A0, C2 | G6 (back)
+face 5 - E4, F5, B1 | A0 (top)
+face 6 - C2 , D3, H7 | G6 |(bottom)
+*/
+
+    drawBox(): Array<Lines2dSpecs> {
         const { sceneEdges } = this.sceneOptions
         if (!sceneEdges) {
             return []
         }
 
+        const start: Array<number> = [0, 1, 3, 2, 5, 7, 6, 4, 1, 0, 3, 2]
+        const end: Array<number> = [1, 3, 2, 0, 7, 6, 4, 5, 5, 4, 7, 6]
         const p: Array<Vector> = this.cube.vertexPoints2d
-        let data: Array<Polygon2dSpecs> = []
-
         const { color, opacity } = sceneEdges
 
-        POINT_FACE_SET.forEach((pointIndices, index) => {
-            const [a, b, c, d] = pointIndices
+        const lines: Lines2dSpecs = {
+            x0: start.map(i => p[i].x),
+            y0: start.map(i => p[i].y),
+            x1: end.map(i => p[i].x),
+            y1: end.map(i => p[i].y),
+            color: color,
+            opacity: opacity || 1.0,
+            size: 1,
+            type: DataSpecType.lines,
+            id: "scene-edges-cube-box",
+        }
 
-            const plane: Polygon2dSpecs = {
-                x: [p[a].x, p[b].x, p[c].x, p[d].x],
-                y: [p[a].y, p[b].y, p[c].y, p[d].y],
-                borderColor: color,
-                borderOpacity: opacity || 1,
-                borderSize: 1,
-                fillColor: color,
-                fillOpacity: 0,
-                type: DataSpecType.polygon,
-                id: `plane-${index}`,
-            }
-
-            data.push(plane)
-        })
-
-        return data
+        return [lines]
     }
 
     /*
