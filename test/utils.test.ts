@@ -1,9 +1,16 @@
 import { renderScene } from "../src/utils"
-import { viewSettings, sceneSettings } from "./test-settings"
-import { sceneOptions } from "./test-input-scene-options"
+import { viewSettings, sceneSettings, sceneOptions } from "./data/input-settings"
+import props2d from "./data/output-data-2d"
+import assert from "assert"
+import hexapodData from "./data/input-data-3d"
 
-import hexapodData from "./test-input-data-3d"
 test("render scene", () => {
-    expect(true).toBe(true)
-    renderScene(viewSettings, sceneSettings, sceneOptions, hexapodData)
+    const props2dResult = renderScene(
+        viewSettings,
+        sceneSettings,
+        sceneOptions,
+        hexapodData
+    )
+
+    assert.deepEqual(props2dResult, props2d)
 })

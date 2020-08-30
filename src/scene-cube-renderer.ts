@@ -17,21 +17,7 @@ import {
    G6--|--H7  |      \
     `. |   `. |       z
       `C2-----D3
-face 1 - A0, B1, D3 | C2 (front)
-face 2 - B1, F5, H7 | D3 (front right)
-face 3 - F5, E4, G6 | H7 (front left)
-face 4 - E4, A0, C2 | G6 (back)
-face 5 - E4, F5, B1 | A0 (top)
-face 6 - C2 , D3, H7 | G6 |(bottom)
 */
-const POINT_FACE_SET = [
-    [0, 1, 3, 2],
-    [1, 5, 7, 3],
-    [5, 4, 6, 7],
-    [4, 0, 2, 6],
-    [4, 5, 1, 0],
-    [2, 3, 7, 6],
-]
 
 const drawAxis = (
     p: Vector,
