@@ -101,7 +101,6 @@ class SceneCubeRenderer {
     render(): Array<Data2dSpecs> {
         return [
             ...this.drawBox(),
-            ...this.drawXYplane(),
             ...this.drawEdges(),
             ...this.drawXYplane(),
             ...this.drawCrossSectionLines(),
@@ -162,7 +161,7 @@ G6-------H7       \
             return []
         }
         const p: Array<Vector> = this.cube.vertexPoints2d
-        return drawAxes(p[6], p[7], p[4], p[2], "edge", edgeAxes)
+        return drawAxes(p[6], p[7], p[4], p[2], "edge-axes", edgeAxes)
     }
 
     drawWorldAxes(): Array<Data2dSpecs> {
@@ -172,7 +171,7 @@ G6-------H7       \
         }
         const v: Array<Vector> = this.cube.worldAxes2d
         const p_: Vector = this.cube.worldOrigin2d
-        return drawAxes(p_, v[0], v[1], v[2], "worldAxes", worldAxes)
+        return drawAxes(p_, v[0], v[1], v[2], "world-axes", worldAxes)
     }
 
     drawCubeAxes(): Array<Data2dSpecs> {
@@ -182,7 +181,7 @@ G6-------H7       \
         }
         const v: Array<Vector> = this.cube.axes2d
         const p_: Vector = this.cube.center2d
-        return drawAxes(p_, v[0], v[1], v[2], "axes", cubeAxes)
+        return drawAxes(p_, v[0], v[1], v[2], "cube-axes", cubeAxes)
     }
 
     /*
