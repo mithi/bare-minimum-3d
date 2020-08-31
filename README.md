@@ -7,10 +7,16 @@
 # Bare Minimum 3d
 
 A small package to transform declared 3d data (points, polygons, lines)
-to 2d data. The output is intended to be fed to a [`bare-minimum-2d`](https://github.com/mithi/bare-minimum-2d) react component..
+to 2d data. The output is intended to be fed to a [`bare-minimum-2d`](https://github.com/mithi/bare-minimum-2d) react component.
+
+You can checkout a demo application in: https://mithi.github.io/hello-3d-world/ and play with the parameters. 
+
+![](https://user-images.githubusercontent.com/1670421/91668232-c04c9c00-eb3d-11ea-8673-c1a525c7bc27.png)
+
 
 ```
-$ npm install @mithi/bare-minimum-3d@0.1.3
+$ npm install @mithi/bare-minimum-2d
+$ npm install @mithi/bare-minimum-3d
 ```
 
 Please check the [wiki / documentation](https://github.com/mithi/bare-minimum-3d/wiki), to learn the arguments that you'll need to pass to `BareMinimum3d`'s `renderScene` function. 
@@ -35,10 +41,6 @@ const { container, data } = renderScene(
 
 <BareMinimum2d {...{container, data} />
 ```
-
-You can checkout a demo application in: https://mithi.github.io/hello-3d-world/ and play with the parameters. 
-
-![](https://user-images.githubusercontent.com/1670421/91668232-c04c9c00-eb3d-11ea-8673-c1a525c7bc27.png)
 
 ## Limitations
 
