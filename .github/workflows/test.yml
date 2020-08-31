@@ -16,6 +16,13 @@ jobs:
 
             - name: npm install
               run: npm install
+
+            - name: Add prettier
+              run: npm install --save-dev --save-exact prettier
+
+            - name: Check code style
+              run: prettier --config ./.prettierrc.yaml --check  ./src/*
+
             - name: Install jest globally
               run: npm install -g jest
             - name: Install coveralls globally
