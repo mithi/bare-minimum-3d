@@ -18,7 +18,7 @@ jobs:
               run: npm install
 
             - name: Add prettier
-              run: npm install --save-dev --save-exact prettier
+              run: npm install -g prettier --dev
 
             - name: Check code style
               run: prettier --config ./.prettierrc.yaml --check  ./src/*
