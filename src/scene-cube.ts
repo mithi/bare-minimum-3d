@@ -59,16 +59,7 @@ class NormalUnitCube {
 const UNIT_CUBE = new NormalUnitCube()
 
 class SceneCube {
-    center3d = UNIT_CUBE.CENTER
-    axes3d = UNIT_CUBE.AXES
-    vertexPoints3d = UNIT_CUBE.POINTS
-    crossPoints3d = UNIT_CUBE.CROSS_SECTION_POINTS
-    center2d: Vector
-    worldOrigin2d: Vector
-    vertexPoints2d: Array<Vector>
-    crossPoints2d: Array<Vector>
-    axes2d: Array<Vector>
-    worldAxes2d: Array<Vector>
+    worldWrtCameraMatrix: matrix4x4
     wrtWorldMatrix: matrix4x4
     wrtCameraMatrix: matrix4x4
     zOffset: number
@@ -87,21 +78,40 @@ class SceneCube {
             worldWrtCameraMatrix,
             this.wrtWorldMatrix
         )
+        this.worldWrtCameraMatrix = worldWrtCameraMatrix
         this.zOffset = zOffset
         this.range = range
         this.projectionConstant = projectionConstant
-        this.crossPoints2d = this._projectedPoints(this.crossPoints3d)
-        this.vertexPoints2d = this._projectedPoints(this.vertexPoints3d)
-        const [center2d] = this._projectedPoints([this.center3d])
-        this.center2d = center2d
-        this.axes2d = this._projectedPoints(this.axes3d)
-        this.worldAxes2d = this._projectedPoints(this.axes3d, 0, worldWrtCameraMatrix)
-        const [worldOrigin2d] = this._projectedPoints(
-            [this.center3d],
+    }
+
+    get crossPoints2d() {
+        return this._projectedPoints(UNIT_CUBE.CROSS_SECTION_POINTS)
+    }
+
+    get vertexPoints2d() {
+        return this._projectedPoints(UNIT_CUBE.POINTS)
+    }
+
+    get axes2d() {
+        return this._projectedPoints(UNIT_CUBE.AXES)
+    }
+
+    get worldAxes2d() {
+        return this._projectedPoints(UNIT_CUBE.AXES, 0, this.worldWrtCameraMatrix)
+    }
+
+    get center2d() {
+        const [point] = this._projectedPoints([UNIT_CUBE.CENTER])
+        return point
+    }
+
+    get worldOrigin2d() {
+        const [point] = this._projectedPoints(
+            [UNIT_CUBE.CENTER],
             0,
-            worldWrtCameraMatrix
+            this.worldWrtCameraMatrix
         )
-        this.worldOrigin2d = worldOrigin2d
+        return point
     }
 
     _projectedPoints(
