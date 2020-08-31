@@ -29,6 +29,36 @@ class SceneCubeRenderer {
     }
 
     /*
+E4          F5
+ *----------*
+ |          |
+ |          |    y
+ |          |    |
+ *----------*    *-- x
+ G6         H7
+*/
+    drawXYplane(): Array<Polygon2dSpecs> {
+        const { xyPlane } = this.sceneOptions
+        if (!xyPlane) {
+            return []
+        }
+
+        const { color, opacity } = xyPlane
+        const p: Array<Vector> = this.cube.vertexPoints2d
+        const polygon: Polygon2dSpecs = {
+            x: [p[4].x, p[5].x, p[7].x, p[6].x],
+            y: [p[4].y, p[5].y, p[7].y, p[6].y],
+            fillColor: color,
+            fillOpacity: opacity || 1.0,
+            borderColor: color,
+            borderOpacity: opacity || 1.0,
+            borderSize: 1,
+            type: DataSpecType.polygon,
+            id: "xy-plane",
+        }
+        return [polygon]
+    }
+    /*
    E4------F5      y
    |`.    | `.     |
    |  `A0-----B1   *----- x
@@ -67,6 +97,57 @@ face 6 - C2 , D3, H7 | G6 |(bottom)
             id: "scene-edges-cube-box",
         }
 
+        return [lines]
+    }
+
+    /*
+                          (y)^
+          i0                 |
+       *---*---*          +1 |
+       |   |   |           0 |---------->(x)
+    j1 *---*---* k2       -1 | -1, 0, 1
+       |   |   |
+       *---*---*
+          l3
+                i0
+           *----*
+           |    |
+        j1 *----*
+            \   |
+             \  * l3
+             m4  \
+                  \ n5
+         E4          F5
+          *----------*
+          |          |
+          |          |    y
+          |          |    |
+          *----------*    *-- x
+          G6         H7
+    */
+
+    drawCrossSectionLines(): Array<Lines2dSpecs> {
+        const { crossLines } = this.sceneOptions
+        if (!crossLines) {
+            return []
+        }
+
+        const p: Array<Vector> = this.cube.crossPoints2d
+        const t: Array<Vector> = this.cube.vertexPoints2d
+
+        const { color, opacity } = crossLines
+
+        const lines: Lines2dSpecs = {
+            x0: [p[0].x, p[1].x, p[1].x, p[3].x, t[6].x, t[4].x, t[5].x, t[7].x],
+            y0: [p[0].y, p[1].y, p[1].y, p[3].y, t[6].y, t[4].y, t[5].y, t[7].y],
+            x1: [p[3].x, p[2].x, p[4].x, p[5].x, t[4].x, t[5].x, t[7].x, t[6].x],
+            y1: [p[3].y, p[2].y, p[4].y, p[5].y, t[4].y, t[5].y, t[7].y, t[6].y],
+            color: color,
+            opacity: opacity || 1.0,
+            size: 1,
+            type: DataSpecType.lines,
+            id: "cross-section-lines",
+        }
         return [lines]
     }
 
@@ -119,89 +200,6 @@ G6-------H7       \
             "cube-axes",
             cubeAxes
         ).render()
-    }
-
-    /*
-/*
-E4          F5
- *----------*
- |          |
- |          |    y
- |          |    |
- *----------*    *-- x
- G6         H7
-*/
-    drawXYplane(): Array<Polygon2dSpecs> {
-        const { xyPlane } = this.sceneOptions
-        if (!xyPlane) {
-            return []
-        }
-
-        const { color, opacity } = xyPlane
-        const p: Array<Vector> = this.cube.vertexPoints2d
-        const polygon: Polygon2dSpecs = {
-            x: [p[4].x, p[5].x, p[7].x, p[6].x],
-            y: [p[4].y, p[5].y, p[7].y, p[6].y],
-            fillColor: color,
-            fillOpacity: opacity || 1.0,
-            borderColor: color,
-            borderOpacity: opacity || 1.0,
-            borderSize: 1,
-            type: DataSpecType.polygon,
-            id: "xy-plane",
-        }
-        return [polygon]
-    }
-
-    /*
-                          (y)^
-          i0                 |
-       *---*---*          +1 |
-       |   |   |           0 |---------->(x)
-    j1 *---*---* k2       -1 | -1, 0, 1
-       |   |   |
-       *---*---*
-          l3
-                i0
-           *----*
-           |    |
-        j1 *----*
-            \   |
-             \  * l3
-             m4  \
-                  \ n5
-         E4          F5
-          *----------*
-          |          |
-          |          |    y
-          |          |    |
-          *----------*    *-- x
-          G6         H7
-    */
-
-    drawCrossSectionLines(): Array<Lines2dSpecs> {
-        const { crossLines } = this.sceneOptions
-        if (!crossLines) {
-            return []
-        }
-
-        const p: Array<Vector> = this.cube.crossPoints2d
-        const t: Array<Vector> = this.cube.vertexPoints2d
-
-        const { color, opacity } = crossLines
-
-        const lines: Lines2dSpecs = {
-            x0: [p[0].x, p[1].x, p[1].x, p[3].x, t[6].x, t[4].x, t[5].x, t[7].x],
-            y0: [p[0].y, p[1].y, p[1].y, p[3].y, t[6].y, t[4].y, t[5].y, t[7].y],
-            x1: [p[3].x, p[2].x, p[4].x, p[5].x, t[4].x, t[5].x, t[7].x, t[6].x],
-            y1: [p[3].y, p[2].y, p[4].y, p[5].y, t[4].y, t[5].y, t[7].y, t[6].y],
-            color: color,
-            opacity: opacity || 1.0,
-            size: 1,
-            type: DataSpecType.lines,
-            id: "cross-section-lines",
-        }
-        return [lines]
     }
 }
 export default SceneCubeRenderer
