@@ -4,6 +4,7 @@ import {
     Lines3dSpecs,
     DataSpecType,
 } from "../../src/primitive-types"
+
 const BODY_MESH_COLOR = "#ff6348"
 const BODY_COLOR = "#FC427B"
 const COG_COLOR = "#32ff7e"
