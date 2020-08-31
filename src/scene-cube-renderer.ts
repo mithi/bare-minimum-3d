@@ -1,80 +1,13 @@
 import SceneCube from "./scene-cube"
-import { SceneOptions, AxesOptions } from "./parameter-types"
+import { SceneOptions } from "./parameter-types"
 import Vector from "./vector"
 import {
     Polygon2dSpecs,
     Lines2dSpecs,
-    Points2dSpecs,
     Data2dSpecs,
     DataSpecType,
 } from "./primitive-types"
-
-/*
-   E4------F5      y
-   |`.    | `.     |
-   |  `A0-----B1   *----- x
-   |   |  |   |     \
-   G6--|--H7  |      \
-    `. |   `. |       z
-      `C2-----D3
-*/
-
-const drawAxis = (
-    p: Vector,
-    v: Vector,
-    color: string,
-    opacity: number,
-    size: number,
-    name: string,
-    axisType: string
-): Lines2dSpecs => ({
-    x0: [p.x],
-    y0: [p.y],
-    x1: [v.x],
-    y1: [v.y],
-    color,
-    opacity,
-    size,
-    type: DataSpecType.lines,
-    id: `${axisType}-${name}`,
-})
-
-const drawAxes = (
-    p0: Vector,
-    vx: Vector,
-    vy: Vector,
-    vz: Vector,
-    name: string,
-    AxesOptions: AxesOptions
-) => {
-    const {
-        intersectionPointColor,
-        intersectionPointSize,
-        xColor,
-        yColor,
-        zColor,
-        lineSize,
-        edgeOpacity,
-    } = AxesOptions
-
-    let opacity = edgeOpacity || 1
-    let size = lineSize || 1
-    const xAxis: Lines2dSpecs = drawAxis(p0, vx, xColor, opacity, size, name, "x")
-    const yAxis: Lines2dSpecs = drawAxis(p0, vy, yColor, opacity, size, name, "y")
-    const zAxis: Lines2dSpecs = drawAxis(p0, vz, zColor, opacity, size, name, "z")
-
-    const centerPoint: Points2dSpecs = {
-        x: [p0.x],
-        y: [p0.y],
-        color: intersectionPointColor,
-        opacity: 1.0,
-        size: intersectionPointSize || 3,
-        type: DataSpecType.points,
-        id: `point-${name}`,
-    }
-
-    return [xAxis, yAxis, zAxis, centerPoint]
-}
+import AxesRenderer from "./axes-renderer"
 
 class SceneCubeRenderer {
     cube: SceneCube
@@ -95,6 +28,36 @@ class SceneCubeRenderer {
         ]
     }
 
+    /*
+E4          F5
+ *----------*
+ |          |
+ |          |    y
+ |          |    |
+ *----------*    *-- x
+ G6         H7
+*/
+    drawXYplane(): Array<Polygon2dSpecs> {
+        const { xyPlane } = this.sceneOptions
+        if (!xyPlane) {
+            return []
+        }
+
+        const { color, opacity } = xyPlane
+        const p: Array<Vector> = this.cube.vertexPoints2d
+        const polygon: Polygon2dSpecs = {
+            x: [p[4].x, p[5].x, p[7].x, p[6].x],
+            y: [p[4].y, p[5].y, p[7].y, p[6].y],
+            fillColor: color,
+            fillOpacity: opacity || 1.0,
+            borderColor: color,
+            borderOpacity: opacity || 1.0,
+            borderSize: 1,
+            type: DataSpecType.polygon,
+            id: "xy-plane",
+        }
+        return [polygon]
+    }
     /*
    E4------F5      y
    |`.    | `.     |
@@ -135,81 +98,6 @@ face 6 - C2 , D3, H7 | G6 |(bottom)
         }
 
         return [lines]
-    }
-
-    /*
-E4              y
-|               |
-|               *----- x (WORLD COORDINATE FRAME)
-|                \
-G6-------H7       \
- \                z
-  \C2
-  xEdge=red
-  yEdge=blue
-  zEdge=green
-  intersectionPoint=white (G6)
-*/
-
-    drawEdgeAxes(): Array<Data2dSpecs> {
-        const { edgeAxes } = this.sceneOptions
-        if (!edgeAxes) {
-            return []
-        }
-        const p: Array<Vector> = this.cube.vertexPoints2d
-        return drawAxes(p[6], p[7], p[4], p[2], "edge-axes", edgeAxes)
-    }
-
-    drawWorldAxes(): Array<Data2dSpecs> {
-        const { worldAxes } = this.sceneOptions
-        if (!worldAxes) {
-            return []
-        }
-        const v: Array<Vector> = this.cube.worldAxes2d
-        const p_: Vector = this.cube.worldOrigin2d
-        return drawAxes(p_, v[0], v[1], v[2], "world-axes", worldAxes)
-    }
-
-    drawCubeAxes(): Array<Data2dSpecs> {
-        const { cubeAxes } = this.sceneOptions
-        if (!cubeAxes) {
-            return []
-        }
-        const v: Array<Vector> = this.cube.axes2d
-        const p_: Vector = this.cube.center2d
-        return drawAxes(p_, v[0], v[1], v[2], "cube-axes", cubeAxes)
-    }
-
-    /*
-/*
-E4          F5
- *----------*
- |          |
- |          |    y
- |          |    |
- *----------*    *-- x
- G6         H7
-*/
-    drawXYplane(): Array<Polygon2dSpecs> {
-        const { xyPlane } = this.sceneOptions
-        if (!xyPlane) {
-            return []
-        }
-
-        const { color, opacity } = xyPlane
-        const p: Array<Vector> = this.cube.vertexPoints2d
-        const polygon: Polygon2dSpecs = {
-            x: [p[4].x, p[5].x, p[7].x, p[6].x],
-            y: [p[4].y, p[5].y, p[7].y, p[6].y],
-            fillColor: color,
-            fillOpacity: opacity || 1.0,
-            borderColor: color,
-            borderOpacity: opacity || 1.0,
-            borderSize: 1,
-            type: DataSpecType.polygon,
-            id: "xy-plane",
-        }
-        return [polygon]
     }
 
     /*
@@ -261,6 +149,57 @@ E4          F5
             id: "cross-section-lines",
         }
         return [lines]
+    }
+
+    /*
+E4              y
+|               |
+|               *----- x (WORLD COORDINATE FRAME)
+|                \
+G6-------H7       \
+ \                z
+  \C2
+  xEdge=red
+  yEdge=blue
+  zEdge=green
+  intersectionPoint=white (G6)
+*/
+
+    drawEdgeAxes(): Array<Data2dSpecs> {
+        const { edgeAxes } = this.sceneOptions
+        if (!edgeAxes) {
+            return []
+        }
+        const p: Array<Vector> = this.cube.vertexPoints2d
+        return new AxesRenderer(p[6], [p[7], p[4], p[2]], "edge-axes", edgeAxes).render()
+    }
+
+    drawWorldAxes(): Array<Data2dSpecs> {
+        const { worldAxes } = this.sceneOptions
+        if (!worldAxes) {
+            return []
+        }
+
+        return new AxesRenderer(
+            this.cube.worldOrigin2d,
+            this.cube.worldAxes2d,
+            "world-axes",
+            worldAxes
+        ).render()
+    }
+
+    drawCubeAxes(): Array<Data2dSpecs> {
+        const { cubeAxes } = this.sceneOptions
+        if (!cubeAxes) {
+            return []
+        }
+
+        return new AxesRenderer(
+            this.cube.center2d,
+            this.cube.axes2d,
+            "cube-axes",
+            cubeAxes
+        ).render()
     }
 }
 export default SceneCubeRenderer
