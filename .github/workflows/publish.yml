@@ -1,4 +1,4 @@
-name: Node.js_Package
+name: Node.js Package
 on:
   release:
     types: [created]
@@ -8,6 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     # Setup .npmrc file to publish to npm
+    
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
