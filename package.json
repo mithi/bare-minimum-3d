@@ -7,9 +7,6 @@
     "files": [
         "lib/"
     ],
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/"
-    },
     "scripts": {
         "test": "jest",
         "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
@@ -33,7 +30,7 @@
         "matplotlib"
     ],
     "author": "Mithi",
-    "license": "Apache 2.0",
+    "license": "Apache License 2.0",
     "bugs": {
         "url": "https://github.com/mithi/bare-minimum-3d/issues"
     },
