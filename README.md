@@ -12,7 +12,7 @@
 
 A small package to transform declared 3d data (points, polygons, lines) to 2d data. The output is intended to be fed to a [`BareMinimum2d`](https://github.com/mithi/bare-minimum-2d) React component.
 
-Extremely lightweight and fairly configurable, it has zero dependencies, with a relatively straightforward declarative API(and soon reasonable defaults). See also: [Why I created this project](https://github.com/mithi/bare-minimum-3d/wiki/Why-I-created-this-project), its intended use, and how it compares with other available options.
+Extremely lightweight and fairly configurable, it has zero dependencies and a relatively straightforward declarative API. See also: [why I created this project](https://github.com/mithi/bare-minimum-3d/wiki/Why-I-created-this-project), its intended use, and how it compares with other available options.
 
 You can checkout a demo application (and play with the parameters!) at: https://mithi.github.io/hello-3d-world
 
@@ -25,7 +25,7 @@ $ npm i @mithi/bare-minimum-3d
 $ npm i bare-minimum-2d
 ```
 
-You can check out the examples of [`SceneOptions`, `SceneSettings`, `ViewSettings`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/input-settings.ts) that you can pass to the `renderScene()` function. You can pass 3d data such as this [`hexapod`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/input-data-3d.ts) or [pyramid](https://github.com/mithi/hello-3d-world/blob/master/src/data/input-3d-pyramid.ts). When you pass the hexapod data along with the other example parameters discussed above, here is the corresponding [`2d data`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/output-data-2d.ts) that `renderScene()` would return.
+You can check out the examples of [`SceneOptions`, `SceneSettings`, `ViewSettings`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/input-settings.ts) that you can pass to the `renderScene()` function. You can pass 3d data such as this [`hexapod`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/input-data-3d.ts) or [`pyramid`](https://github.com/mithi/hello-3d-world/blob/master/src/data/input-3d-pyramid.ts). When you pass the hexapod data along with the other example parameters linked above, [`this is the corresponding 2d data`](https://github.com/mithi/bare-minimum-3d/blob/master/test/data/output-data-2d.ts) that `renderScene()` would return.
 
 ```js
 import BareMinimum2d from "bare-minimum-2d"
@@ -47,14 +47,10 @@ Please check the [wiki / documentation](https://github.com/mithi/bare-minimum-3d
 - [`SceneSettings`](https://github.com/mithi/bare-minimum-3d/wiki/SceneSettings)
 - [`ViewSettings`](https://github.com/mithi/bare-minimum-3d/wiki/ViewSettings)
 
-## Limitations
+## ⚠️❗ Limitations
 
-This library does NOT perform [clipping](https://www.gabrielgambetta.com/computer-graphics-from-scratch/clipping.html) or [hidden surface removal](https://www.gabrielgambetta.com/computer-graphics-from-scratch/hidden-surface-removal.html). It's awesome implement the **painter’s algorithm**, **backface culling**,  **depth buffering** or even simply **z-sorting** the elements to avoid elements incorrectly overlapping objects that are further away from the camera... but there is no plan to implement these things in the foreseeable future... unless someone makes a pull request! :heart: If you do, I will put your name at the [main contributor(s) section](https://github.com/mithi/bare-minimum-3d#main-contributors) below! 🤗
+This library does NOT perform [clipping](https://www.gabrielgambetta.com/computer-graphics-from-scratch/clipping.html) or [hidden surface removal](https://www.gabrielgambetta.com/computer-graphics-from-scratch/hidden-surface-removal.html). Each element are just painted to the screen in the order that you declare them in your array of data, and the scene elements are always rendered first, meaning your data will be rendered on top of any scene element. This means that it is possible that elements will incorrectly overlap other elements that are actually nearer to the camera. There is no plan to fix this... unless someone [makes a pull request](https://github.com/mithi/bare-minimum-3d/issues/20)! :heart: 
 
 ## Contributing [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-orange.svg?style=flat)](./CONTRIBUTING.md)
 
 Please read the [contributing guidelines](https://github.com/mithi/hexapod/blob/master/CONTRIBUTING.md) and the recommended [commit style guide](https://github.com/mithi/hexapod/wiki/A-Commit-Style-Guide)! Thank you!
-
-## Main contributor(s)
-
-- [@mithi](https://github.com/mithi)
