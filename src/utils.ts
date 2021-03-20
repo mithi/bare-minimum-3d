@@ -68,10 +68,12 @@ const renderScene = (
     const sceneData = new SceneCubeRenderer(cube, sceneOptions).render()
 
     // 4. generate the 2d representation of the passed data to feed to the plot
-    const { dataZoffset } = sceneSettings
+    const { dataXoffset, dataYoffset, dataZoffset } = sceneSettings
 
     const models = new DataRenderer(
         cube.range,
+        dataXoffset,
+        dataYoffset,
         dataZoffset,
         cube.wrtCameraMatrix,
         projectionConstant

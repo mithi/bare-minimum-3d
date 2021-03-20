@@ -14,6 +14,8 @@ const viewSettings = {
 const sceneSettings = {
     cubeRange: 600,
     cubeZoffset: 1,
+    dataXoffset: 0,
+    dataYoffset: 0,
     dataZoffset: 0,
     paperXrange: 600,
     paperYrange: 600,
