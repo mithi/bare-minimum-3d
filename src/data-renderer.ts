@@ -17,26 +17,40 @@ type PolygonOrPoints2d = Points2dSpecs | Polygon2dSpecs
 
 class DataRenderer {
     sceneRange: number
+    dataXoffset: number
+    dataYoffset: number
     dataZoffset: number
     transformMatrix: matrix4x4
     projectionConstant: number
 
     constructor(
         sceneRange: number,
+        dataXoffset: number,
+        dataYoffset: number,
         dataZoffset: number,
         transformMatrix: matrix4x4,
         projectionConstant: number
     ) {
         this.sceneRange = sceneRange
+        this.dataXoffset = dataXoffset
+        this.dataYoffset = dataYoffset
         this.dataZoffset = dataZoffset
         this.transformMatrix = transformMatrix
         this.projectionConstant = projectionConstant
     }
 
     _projectPoint(x_: number, y_: number, z_: number, i: number): Vector {
-        const { sceneRange, dataZoffset, transformMatrix, projectionConstant } = this
-        const x = x_ / sceneRange
-        const y = y_ / sceneRange
+        const {
+            sceneRange,
+            dataXoffset,
+            dataYoffset,
+            dataZoffset,
+            transformMatrix,
+            projectionConstant,
+        } = this
+
+        const x = x_ / sceneRange + dataXoffset
+        const y = y_ / sceneRange + dataYoffset
         const z = z_ / sceneRange + dataZoffset
 
         return new Vector(x, y, z, `${i}`)

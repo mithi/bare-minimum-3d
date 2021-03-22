@@ -1,6 +1,6 @@
 {
     "name": "@mithi/bare-minimum-3d",
-    "version": "0.1.4",
+    "version": "0.2.0",
     "description": "A small package to transform declared 3d data (points, polygons, lines) to 2d data. The output is intended to be fed to a `bare-minimum-2d` plot.",
     "main": "./lib/cjs/index.js",
     "module": "./lib/esm/index.js",
@@ -10,7 +10,9 @@
     "scripts": {
         "test": "jest",
         "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-        "prepublishOnly": "npm run tsc"
+        "format": "npm run pre",
+        "prepublishOnly": "npm run tsc",
+        "check-format": "prettier --config ./.prettierrc.yaml --check \"./src/*\""
     },
     "repository": {
         "type": "git",
@@ -38,7 +40,7 @@
     "devDependencies": {
         "@types/jest": "^26.0.10",
         "coveralls": "^3.1.0",
-        "jest": "^26.4.2",
+        "jest": "^26.6.3",
         "prettier": "2.1.1",
         "ts-jest": "^26.2.0",
         "typescript": "^4.0.2"

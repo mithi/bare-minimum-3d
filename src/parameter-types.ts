@@ -14,6 +14,8 @@ interface ViewSettings {
 interface SceneSettings {
     cubeRange: number
     cubeZoffset: number
+    dataXoffset: number
+    dataYoffset: number
     dataZoffset: number
     paperXrange: number
     paperYrange: number
