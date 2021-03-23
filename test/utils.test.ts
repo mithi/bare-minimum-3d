@@ -12,5 +12,5 @@ test("render scene", () => {
         hexapodData
     )
 
-    assert.deepEqual(props2dResult, props2d)
+    assert.deepStrictEqual(props2dResult, props2d)
 })
