@@ -72,7 +72,9 @@ class DataRenderer {
             xs.push(point.x)
             ys.push(point.y)
         })
-        return { ...element, x: xs, y: ys }
+
+        const { z, ...elementWithoutZ } = element
+        return { ...elementWithoutZ, x: xs, y: ys }
     }
 
     _projectLines(lines: Lines3dSpecs): Lines2dSpecs {
@@ -102,7 +104,8 @@ class DataRenderer {
             ys1.push(points1.y)
         })
 
-        return { ...lines, x0: xs0, y0: ys0, x1: xs1, y1: ys1 }
+        const { z0, z1, ...linesWithoutZ } = lines
+        return { ...linesWithoutZ, x0: xs0, y0: ys0, x1: xs1, y1: ys1 }
     }
 
     render(data: Array<Data3dSpecs>): Array<Data2dSpecs> {
