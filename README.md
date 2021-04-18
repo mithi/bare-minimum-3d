@@ -47,6 +47,26 @@ Please check the [wiki / documentation](https://github.com/mithi/bare-minimum-3d
 -   [`SceneSettings`](https://github.com/mithi/bare-minimum-3d/wiki/SceneSettings)
 -   [`ViewSettings`](https://github.com/mithi/bare-minimum-3d/wiki/ViewSettings)
 
+## `0.4.0` Update
+
+Version `0.4.0` exposes all utility functions are now exposed to the users, so you can use it however you like. With all the building blocks available to you, you can even build your own custom `renderScene` function, should you want to!
+
+```js
+import {
+    renderScene,
+    SCENE_ORIENTATION,
+    getWorldWrtCameraMatrix,
+    AxesRenderer,
+    SceneCube,
+    DataRenderer,
+    SceneCubeRenderer,
+    Vector,
+    rotateXYZmatrix,
+    multiply4x4matrix,
+    radians,
+} from "@mithi/bare-minimum-3d"
+```
+
 ## ⚠️❗ Limitations
 
 This library does NOT perform [clipping](https://www.gabrielgambetta.com/computer-graphics-from-scratch/clipping.html) or [hidden surface removal](https://www.gabrielgambetta.com/computer-graphics-from-scratch/hidden-surface-removal.html). Each element are just painted to the screen in the order that you declare them in your array of data, and the scene elements are always rendered first, meaning your data will be rendered on top of any scene element. This means that it is possible that elements will incorrectly overlap other elements that are actually nearer to the camera. There is no plan to fix this... unless someone [makes a pull request](https://github.com/mithi/bare-minimum-3d/issues/20)! :heart:
