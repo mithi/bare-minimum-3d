@@ -23,6 +23,7 @@ class AxesRenderer {
         this.name = name
         this.specs = specs
     }
+
     drawAxis(
         p: Vector,
         v: Vector,
@@ -54,6 +55,7 @@ class AxesRenderer {
             id: `point-${this.name}`,
         }
     }
+
     render() {
         const p = this.origin
         const [vx, vy, vz] = this.axes

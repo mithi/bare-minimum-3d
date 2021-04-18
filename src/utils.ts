@@ -10,9 +10,11 @@ const getWorldWrtCameraMatrix = (
     euler: { x: number; y: number; z: number }
 ): matrix4x4 => {
     const r = rotateXYZmatrix(euler) // rotation of camera wrt world
+
     // rInverse = rTranspose = rotation of world wrt camera
     // tInverseMatrix = offset of world wrt camera in a matrix
     const t = offset // offset of camera wrt to world
+
     // world_to_camera_matrix = rotateCameraMatrixInverse * tInverseMatrix
     return [
         [r[0][0], r[1][0], r[2][0], -t.x],
@@ -93,4 +95,4 @@ const renderScene = (
     }
 }
 
-export { renderScene }
+export { renderScene, SCENE_ORIENTATION, getWorldWrtCameraMatrix }
