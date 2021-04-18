@@ -10,7 +10,6 @@
     "scripts": {
         "test": "jest",
         "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-        "format": "npm run pre",
         "prepublishOnly": "npm run tsc",
         "check-format": "prettier --config ./.prettierrc.yaml --check \"./src/*\""
     },
