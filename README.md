@@ -12,7 +12,8 @@
 
 A small package to transform declared 3d data (points, polygons, lines) to 2d data. The output is intended to be fed to a [`BareMinimum2d`](https://github.com/mithi/bare-minimum-2d) React component.
 
-Extremely lightweight and fairly configurable, it has zero dependencies and a relatively straightforward declarative API. See also: [why I created this project](https://github.com/mithi/bare-minimum-3d/wiki/Why-I-created-this-project), its intended use, and how it compares with other available options.
+Extremely lightweight and fairly configurable, this package has zero dependencies and a relatively straightforward declarative API. See also: [why I created this project](https://github.com/mithi/bare-minimum-3d/wiki/Why-I-created-this-project).
+
 
 You can checkout a demo application (and play with the parameters!) at: https://mithi.github.io/hello-3d-world
 
@@ -32,11 +33,8 @@ import BareMinimum2d from "bare-minimum-2d"
 import renderScene from "@mithi/bare-minimum-3d"
 
 const { container, data } = renderScene(
-        viewSettings,
-        sceneSettings,
-        sceneOptions,
-        data3d
-    )
+    viewSettings, sceneSettings, sceneOptions, data3d
+)
 
 <BareMinimum2d {...{container, data} />
 ```
