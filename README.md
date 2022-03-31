@@ -47,7 +47,7 @@ Please check the [wiki / documentation](https://github.com/mithi/bare-minimum-3d
 
 ## `0.4.0` Update
 
-Version `0.4.0` exposes all utility functions are now exposed to the users, so you can use it however you like. With all the building blocks available to you, you can even build your own custom `renderScene` function, should you want to!
+In Version `0.4.0` all utility functions are now exposed to the users, so you can use it however you like. With all the building blocks available to you, you can even build your own custom `renderScene` function, should you want to!
 
 ```js
 import {
